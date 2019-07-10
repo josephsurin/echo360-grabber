@@ -1,6 +1,12 @@
 function parse(syllabus, options) {
     let { data } = syllabus
     parsed_data = []
+    /* sort the data by time so we get correct indexing */
+    data.sort((a, b) => {
+        let { lesson: { lesson: { timing: { start: start_a } } } } = a
+        let { lesson: { lesson: { timing: { start: start_b } } } } = b
+        return new Date(start_a) - new Date(start_b)
+    })
     var N = 1
     data.forEach(({ lesson }) => {
         if(!lesson.hasAvailableVideo || (options.times && !within_times(lesson, options.times))) return
