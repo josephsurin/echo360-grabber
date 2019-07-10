@@ -34,15 +34,15 @@ function build_filename(lesson, N, quality, filename_format) {
     let { lesson: { timing: { start } }, video: { published: { courseName } } } = lesson
     var lesson_date = new Date(start)
     return filename_format
-        .replace('<course_name>', courseName)
-        .replace('<quality>', quality)
-        .replace('%yy', lesson_date.getFullYear())
-        .replace('%dd', lesson_date.getDate().toString().padStart(2, '0'))
-        .replace('%D', days[lesson_date.getDay()])
-        .replace('%mm', (lesson_date.getMonth()+1).toString().padStart(2, '0'))
-        .replace('%HH', lesson_date.getHours().toString().padStart(2, '0'))
-        .replace('%MM', lesson_date.getMinutes().toString().padStart(2, '0'))
-        .replace('%N', N.toString().padStart(2, '0'))
+        .replace(/<course_name>/g, courseName)
+        .replace(/<quality>/g, quality)
+        .replace(/%yy/g, lesson_date.getFullYear())
+        .replace(/%dd/g, lesson_date.getDate().toString().padStart(2, '0'))
+        .replace(/%D/g, days[lesson_date.getDay()])
+        .replace(/%mm/g, (lesson_date.getMonth()+1).toString().padStart(2, '0'))
+        .replace(/%HH/g, lesson_date.getHours().toString().padStart(2, '0'))
+        .replace(/%MM/g, lesson_date.getMinutes().toString().padStart(2, '0'))
+        .replace(/%N/g, N.toString().padStart(2, '0'))
 }
 
 module.exports = parse
