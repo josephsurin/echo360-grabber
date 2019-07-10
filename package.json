@@ -1,0 +1,16 @@
+{
+  "name": "echo360-grabber",
+  "version": "1.0.0",
+  "description": "Video link grabber for echo360",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "js-yaml": "^3.13.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}

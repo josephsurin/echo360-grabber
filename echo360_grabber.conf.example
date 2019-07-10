@@ -1,0 +1,34 @@
+PLAY_SESSION_COOKIE: <put your session cookie here>
+
+courses:
+
+    # Linear Algebra MAST10007
+    - uuid:                 b8eabf0a-8795-4457-94ac-c1dd10561f30
+      filename_format:      <course_name> MAST10007 %dd-%mm-%yy %HH:%MM.mp4
+      quality:              SD
+      dump:                 linalg.json
+      aria2c:               linalg.aria2c
+      times:
+        - day:  mon
+          time: '15:15'
+
+        - day:  wed
+          time: '12:00'
+
+        - day:  thu
+          time: '16:15'
+
+    # Calculus 2 MAST10006
+    - uuid:                 7b3a4620-6a0b-472c-a556-a146a790c872
+      filename_format:      <course_name> MAST10006 %dd-%mm-%yy %HH:%MM.mp4
+      quality:              SD
+      aria2c:               calc2.aria2c
+      times:
+        - day:  mon
+          time: '16:15'
+
+        - day:  wed
+          time: '16:15'
+
+        - day:  fri
+          time: '16:15'
