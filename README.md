@@ -1,4 +1,4 @@
-# echo360 Grabber
+# echo360-grabber
 
 echo360-grabber is a very simple command line tool written in Node.js that grabs download links for lectures and outputs them in a format to be easily batch downloaded (currently only [aria2c](https://aria2.github.io/) output is supported, however it is very extensible (PRs welcome!))
 
