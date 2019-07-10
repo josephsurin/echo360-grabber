@@ -63,8 +63,8 @@ cookies="./my_secret_cookies.txt"
 # generate the .aria2c files
 echo360-grabber -c "$conf" -d ./
 
-aria2c --load-cookies "$cookies" -i linalg.aria2c -d "./Linear Algebra"
-aria2c --load-cookies "$cookies" -i calc2.aria2c -d "./Calculus 2"
+aria2c --load-cookies "$cookies" -i linalg.aria2c -d "./Linear Algebra" -c
+aria2c --load-cookies "$cookies" -i calc2.aria2c -d "./Calculus 2" -c
 ```
 
 ## Configuration <a name="configuration"></a>
