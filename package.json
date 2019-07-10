@@ -1,29 +1,29 @@
 {
-  "name": "echo360-grabber",
-  "version": "1.0.0",
-  "description": "Video link grabber for echo360",
-  "keywords": [
-      "echo360",
-      "grabber"
-  ],
-  "main": "./src/parser.js",
-  "bin": {
-      "echo360-grabber": "./bin/index.js"
-  },
-  "scripts": {},
-  "author": "Joseph Surin <joseph.surin@gmail.com>",
-  "repository": {
-      "type": "git",
-      "url": "https://github.com/josephsurin/echo360-grabber.git"
-  },
-  "bugs": {
-      "url": "https://github.com/josephsurin/echo360-grabber/issues"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "js-yaml": "^3.13.1",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "yargs": "^13.2.4"
-  }
+    "name": "echo360-grabber",
+    "version": "1.0.1",
+    "description": "Video link grabber for echo360",
+    "keywords": [
+        "echo360",
+        "grabber"
+    ],
+    "main": "./src/parser.js",
+    "bin": {
+        "echo360-grabber": "./bin/index.js"
+    },
+    "scripts": {},
+    "author": "Joseph Surin <joseph.surin@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/josephsurin/echo360-grabber.git"
+    },
+    "bugs": {
+        "url": "https://github.com/josephsurin/echo360-grabber/issues"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "js-yaml": "^3.13.1",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.4",
+        "yargs": "^13.2.4"
+    }
 }
