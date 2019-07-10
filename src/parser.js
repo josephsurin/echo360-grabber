@@ -1,12 +1,13 @@
 function parse(syllabus, options) {
     let { data } = syllabus
     parsed_data = []
+    var N = 1
     data.forEach(({ lesson }) => {
         if(!lesson.hasAvailableVideo || (options.times && !within_times(lesson, options.times))) return
         let { video: { media: { media: { current: { primaryFiles } } } } } = lesson
         primaryFiles.sort(({ size: a }, { size: b }) => options.quality == 'SD' ? a - b : b - a)
         let { s3Url } = primaryFiles[0]
-        var filename = build_filename(lesson, options.quality, options.filename_format)
+        var filename = build_filename(lesson, N++, options.quality, options.filename_format)
         var parsed_lesson = { filename, quality: options.quality, download_url: s3Url }
         parsed_data.push(parsed_lesson)
     })
@@ -29,7 +30,7 @@ function within_time(target, time) {
     return Math.abs(spec_date - target_date) < 1000*60*30
 }
 
-function build_filename(lesson, quality, filename_format) {
+function build_filename(lesson, N, quality, filename_format) {
     let { lesson: { timing: { start } }, video: { published: { courseName } } } = lesson
     var lesson_date = new Date(start)
     return filename_format
@@ -41,6 +42,7 @@ function build_filename(lesson, quality, filename_format) {
         .replace('%mm', (lesson_date.getMonth()+1).toString().padStart(2, '0'))
         .replace('%HH', lesson_date.getHours().toString().padStart(2, '0'))
         .replace('%MM', lesson_date.getMinutes().toString().padStart(2, '0'))
+        .replace('%N', N.toString().padStart(2, '0'))
 }
 
 module.exports = parse
