@@ -52,6 +52,21 @@ Examples:
   echo360-grabber -c ./myconfig.conf -d ~/uni/lectures/
 ```
 
+If typing a few commands is still too much, you might like to use a bash script to automate almost everything. For example:
+
+```bash
+#!/usr/bin/sh
+
+conf="./echo360_grabber.conf"
+cookies="./my_secret_cookies.txt"
+
+# generate the .aria2c files
+echo360-grabber -c "$conf" -d ./
+
+aria2c --load-cookies "$cookies" -i linalg.aria2c -d "./Linear Algebra"
+aria2c --load-cookies "$cookies" -i calc2.aria2c -d "./Calculus 2"
+```
+
 ## Configuration <a name="configuration"></a>
 
 The configuration file is a [yaml](https://yaml.org/) file and is how you specify your 'credentials' and other options. An example configuration file might look like this:
@@ -118,7 +133,9 @@ The filename key in the configuration file can be templated using the following 
 
 For example, a filename_format of `<course_name> %dd-%mm-%yy %D %HH:%MM (<quality>).mp4` might produce `Linear Algebra 04-03-2019 mon 15:20 (HD).mp4`
 
-The `%N` sequence attempts to index the lecture, starting from 01. This should work, but might be buggy. For example, a filename_format of `<course_name> - %N.mp4` might produce `Linear Algebra - 01.mp4`
+The `%N` sequence attempts to index the lecture, starting from 01. For example, a filename_format of `<course_name> - %N.mp4` might produce `Linear Algebra - 01.mp4`. This should work, but might be buggy. 
+
+One more thing to note with the filename format key is that it is used directly by aria2c. Because of this, you can specify directories and when the file is generated and fed into aria2c, it will automatically create the directory for you. For example, you might want to put `<course_name>/<course_name> - %N.mp4` as the filename format, which might produce `Linear Algebra/Linear Algebra - 01.mp4` and when read by aria2c, will create a directory named `Linear Algebra` and download the file into it as `Linear Algebra - 01.mp4`
 
 ## FAQ <a name="faq"></a>
 
