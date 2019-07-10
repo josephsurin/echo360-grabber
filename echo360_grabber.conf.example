@@ -1,10 +1,12 @@
 PLAY_SESSION_COOKIE: <put your session cookie here>
 
+# default filename format if not specified for a course
+filename_format: <course_name> %dd-%mm-%yy %HH:%MM.mp4
+
 courses:
 
     # Linear Algebra MAST10007
     - uuid:                 b8eabf0a-8795-4457-94ac-c1dd10561f30
-      filename_format:      <course_name> MAST10007 %dd-%mm-%yy %HH:%MM.mp4
       quality:              SD
       dump:                 linalg.json
       aria2c:               linalg.aria2c
@@ -20,7 +22,7 @@ courses:
 
     # Calculus 2 MAST10006
     - uuid:                 7b3a4620-6a0b-472c-a556-a146a790c872
-      filename_format:      <course_name> MAST10006 %dd-%mm-%yy %HH:%MM.mp4
+      filename_format:      Calculus 2 %dd-%mm-%yy %HH:%MM.mp4
       quality:              SD
       aria2c:               calc2.aria2c
       times:

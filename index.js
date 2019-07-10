@@ -11,14 +11,14 @@ const config_file = './echo360_grabber.conf'
 
 async function main() {
     var config = yaml.safeLoad(fs.readFileSync(config_file, 'utf-8'))
-    let { courses, PLAY_SESSION_COOKIE } = config
+    let { courses, filename_format: global_filename_format, PLAY_SESSION_COOKIE } = config
     var request_opts = { headers: {'Cookie': 'PLAY_SESSION='+PLAY_SESSION_COOKIE } }
     courses.forEach(async (course) => {
         console.log('[LOG] Fetching syllabus for course:', course.uuid)
         var syllabus_res = await rp(echo360_syllabus_url(course.uuid), request_opts).catch(console.log)
         var syllabus = JSON.parse(syllabus_res)
         let { filename_format, quality, times } = course
-        var parser_opts = { filename_format, quality, times }
+        var parser_opts = { filename_format: filename_format || global_filename_format, quality, times }
         console.log('[LOG] Parsing syllabus for course:', course.uuid)
         var parsed_data = parse(syllabus, parser_opts)
         console.log('[LOG] Finished parsing syllabus for course', course.uuid, 'Found', parsed_data.length, 'lectures')
