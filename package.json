@@ -6,7 +6,7 @@
       "echo360",
       "grabber"
   ],
-  "main": "./bin/index.js",
+  "main": "./src/parser.js",
   "bin": {
       "echo360-grabber": "./bin/index.js"
   },
