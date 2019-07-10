@@ -2,7 +2,7 @@ function parse(syllabus, options) {
     let { data } = syllabus
     parsed_data = []
     data.forEach(({ lesson }) => {
-        if(!lesson.hasAvailableVideo || !within_times(lesson, options.times)) return
+        if(!lesson.hasAvailableVideo || (options.times && !within_times(lesson, options.times))) return
         let { video: { media: { media: { current: { primaryFiles } } } } } = lesson
         primaryFiles.sort(({ size: a }, { size: b }) => options.quality == 'SD' ? a - b : b - a)
         let { s3Url } = primaryFiles[0]
@@ -38,7 +38,7 @@ function build_filename(lesson, quality, filename_format) {
         .replace('%yy', lesson_date.getFullYear())
         .replace('%dd', lesson_date.getDate().toString().padStart(2, '0'))
         .replace('%D', days[lesson_date.getDay()])
-        .replace('%mm', lesson_date.getMonth().toString().padStart(2, '0'))
+        .replace('%mm', (lesson_date.getMonth()+1).toString().padStart(2, '0'))
         .replace('%HH', lesson_date.getHours().toString().padStart(2, '0'))
         .replace('%MM', lesson_date.getMinutes().toString().padStart(2, '0'))
 }
