@@ -112,11 +112,13 @@ Some things to note about the config file:
 
 #### Filename Format
 
-The filename key in the configuration file can be templated using the following tokens:
+The filename key in the configuration file can be templated using the following sequences:
 
-`<course_name>`, `<quality>`, `%yy`, `%dd`, `%D`, `%mm`, `%HH`, `%MM`
+`<course_name>`, `<quality>`, `%yy`, `%dd`, `%D`, `%mm`, `%HH`, `%MM`, `%N`
 
 For example, a filename_format of `<course_name> %dd-%mm-%yy %D %HH:%MM (<quality>).mp4` might produce `Linear Algebra 04-03-2019 mon 15:20 (HD).mp4`
+
+The `%N` sequence attempts to index the lecture, starting from 01. This should work, but might be buggy. For example, a filename_format of `<course_name> - %N.mp4` might produce `Linear Algebra - 01.mp4`
 
 ## FAQ <a name="faq"></a>
 
