@@ -43,7 +43,7 @@ This tool currently does not have a very feature-rich command line interface. Mo
 ```bash
 Options:
   --version      Show version number                                   [boolean]
-  --config, -c   Path to your echo360 grabber config file             [required]
+  --config, -c    Path to your echo360 grabber config file             [required]
   --dir, -d      Directory to output generated files to
   --verbose, -v  Enabled verbose logging to stdout    [boolean] [default: false]
   --help         Show help                                             [boolean]
@@ -81,7 +81,7 @@ courses:
 
     # Calculus 2 MAST10006
     - uuid:                 7b3a4620-6a0b-472c-a556-a146a790c872
-      filename_format:      Calculus 2 %dd-%mm-%yy %HH:%MM.mp4
+      filename_format:       Calculus 2 %dd-%mm-%yy %HH:%MM.mp4
       quality:              SD
       aria2c:               calc2.aria2c
       times:
