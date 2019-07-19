@@ -8,6 +8,14 @@ const argv = require('yargs')
         alias: 'd',
         describe: 'Directory to output generated files to'
     })
+    .option('before', {
+        alias: 'B',
+        describe: 'Only grab links for videos released before this date'
+    })
+    .option('after', {
+        alias: 'A',
+        describe: 'Only grab links for videos released after this date'
+    })
     .option('verbose', {
         alias: 'v',
         describe: 'Enabled verbose logging to stdout',
@@ -37,16 +45,23 @@ const config_file = argv.config
 
 async function main() {
     var config = yaml.safeLoad(fs.readFileSync(config_file, 'utf-8'))
-    let { courses, filename_format: global_filename_format, PLAY_SESSION_COOKIE } = config
+    let { courses, filename_format: global_filename_format, before: global_before, after: global_after, PLAY_SESSION_COOKIE } = config
     var request_opts = { headers: {'Cookie': 'PLAY_SESSION='+PLAY_SESSION_COOKIE } }
     courses.forEach(async (course) => {
         console.log('[LOG] Fetching syllabus for course:', course.uuid)
         var syllabus_res = await rp(echo360_syllabus_url(course.uuid), request_opts).catch(console.log)
         var syllabus = JSON.parse(syllabus_res)
-        let { filename_format, quality, times } = course
-        var parser_opts = { filename_format: filename_format || global_filename_format, quality, times, verblog }
+        let { filename_format, quality, times, before, after } = course
+        var parser_opts = {
+            filename_format: filename_format || global_filename_format,
+            quality,
+            times,
+            before: argv.before || before || global_before,
+            after: argv.after || after || global_after
+        }
         console.log('[LOG] Parsing syllabus for course:', course.uuid)
-        var parsed_data = parse(syllabus, parser_opts)
+        verblog('Parser Options:', parser_opts)
+        var parsed_data = parse(syllabus, parser_opts, verblog)
         console.log('[LOG] Finished parsing syllabus for course', course.uuid, 'Found', parsed_data.length, 'lectures')
         if(course.dump) {
             var dump_file = argv.dir ? path.join(argv.dir, course.dump) : course.dump

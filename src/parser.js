@@ -1,4 +1,4 @@
-function parse(syllabus, options) {
+function parse(syllabus, options, verblog) {
     let { data } = syllabus
     parsed_data = []
     /* sort the data by time so we get correct indexing */
