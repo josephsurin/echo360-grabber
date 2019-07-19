@@ -1,4 +1,4 @@
-function parse(syllabus, options, verblog) {
+function parse(syllabus, options) {
     let { data } = syllabus
     parsed_data = []
     /* sort the data by time so we get correct indexing */
@@ -20,18 +20,30 @@ function parse(syllabus, options, verblog) {
     return parsed_data
 }
 
+function get_lesson_start(lesson) {
+    return lesson.lesson.timing.start
+}
+
+function get_lesson_course_name(lesson) {
+    return lesson.video.published.courseName
+}
+
 function is_invalid_lesson(lesson, options) {
-    return !lesson.hasAvailableVideo ||
+    var is_invalid = !lesson.hasAvailableVideo ||
         (options.times && !within_times(lesson, options.times)) ||
         (options.before && !before_date(lesson, options.before)) ||
         (options.after && !after_date(lesson, options.after))
+    if(lesson.hasAvailableVideo) {
+        verblog('[LOG]', is_invalid ? 'Skipping' : 'Adding', get_lesson_course_name(lesson), get_lesson_start(lesson))
+    }
+    return is_invalid
 }
 
 const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 function within_times(lesson, times) {
     /* returns true if the lesson is within_time for at least one time in times, false otherwise */
-    let { lesson: { timing: { start } } } = lesson
+    var start = get_lesson_start(lesson)
     return times.some(time => within_time(start, time))
 }
 
@@ -44,20 +56,23 @@ function within_time(target, time) {
 }
 
 function before_date(lesson, date) {
-    let { lesson: { timing: { start } } } = lesson
+    /* returns true if the lesson start time occurred (strictly) before `date` */
+    var start = get_lesson_start(lesson)
     return new Date(date) > new Date(start)
 }
 
 function after_date(lesson, date) {
-    let { lesson: { timing: { start } } } = lesson
+    /* returns true if the lesson start time occurred (strictly) after `date` */
+    var start = get_lesson_start(lesson)
     return new Date(date) < new Date(start)
 }
 
 function build_filename(lesson, N, quality, filename_format) {
-    let { lesson: { timing: { start } }, video: { published: { courseName } } } = lesson
+    var start = get_lesson_start(lesson)
+    var course_name = get_lesson_course_name(lesson)
     var lesson_date = new Date(start)
     return filename_format
-        .replace(/<course_name>/g, courseName)
+        .replace(/<course_name>/g, course_name)
         .replace(/<quality>/g, quality)
         .replace(/%yy/g, lesson_date.getFullYear())
         .replace(/%dd/g, lesson_date.getDate().toString().padStart(2, '0'))

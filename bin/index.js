@@ -27,7 +27,7 @@ const argv = require('yargs')
     .help()
     .argv
 
-const verblog = argv.verbose ? console.log : () => {}
+verblog = argv.verbose ? console.log : () => {}
 
 verblog('[LOG] invoked with args:', argv)
 
@@ -61,7 +61,7 @@ async function main() {
         }
         console.log('[LOG] Parsing syllabus for course:', course.uuid)
         verblog('Parser Options:', parser_opts)
-        var parsed_data = parse(syllabus, parser_opts, verblog)
+        var parsed_data = parse(syllabus, parser_opts)
         console.log('[LOG] Finished parsing syllabus for course', course.uuid, 'Found', parsed_data.length, 'lectures')
         if(course.dump) {
             var dump_file = argv.dir ? path.join(argv.dir, course.dump) : course.dump
