@@ -9,7 +9,7 @@ function parse(syllabus, options, verblog) {
     })
     var N = 1
     data.forEach(({ lesson }) => {
-        if(!lesson.hasAvailableVideo || (options.times && !within_times(lesson, options.times))) return
+        if(is_invalid_lesson(lesson, options)) return
         let { video: { media: { media: { current: { primaryFiles } } } } } = lesson
         primaryFiles.sort(({ size: a }, { size: b }) => options.quality == 'SD' ? a - b : b - a)
         let { s3Url } = primaryFiles[0]
@@ -18,6 +18,13 @@ function parse(syllabus, options, verblog) {
         parsed_data.push(parsed_lesson)
     })
     return parsed_data
+}
+
+function is_invalid_lesson(lesson, options) {
+    return !lesson.hasAvailableVideo ||
+        (options.times && !within_times(lesson, options.times)) ||
+        (options.before && !before_date(lesson, options.before)) ||
+        (options.after && !after_date(lesson, options.after))
 }
 
 const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
@@ -34,6 +41,16 @@ function within_time(target, time) {
     if(days[target_date.getDay()] != time.day.toLowerCase()) return false
     var spec_date = new Date(target.split('T')[0]+'T'+time.time)
     return Math.abs(spec_date - target_date) < 1000*60*30
+}
+
+function before_date(lesson, date) {
+    let { lesson: { timing: { start } } } = lesson
+    return new Date(date) > new Date(start)
+}
+
+function after_date(lesson, date) {
+    let { lesson: { timing: { start } } } = lesson
+    return new Date(date) < new Date(start)
 }
 
 function build_filename(lesson, N, quality, filename_format) {
