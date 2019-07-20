@@ -9,7 +9,11 @@ function parse(syllabus, options) {
     })
     var N = 1
     data.forEach(({ lesson }) => {
-        if(is_invalid_lesson(lesson, options)) return
+        var [is_invalid, N_inc] = is_invalid_lesson(lesson, options)
+        if(is_invalid) {
+            N += N_inc
+            return
+        }
         let { video: { media: { media: { current: { primaryFiles } } } } } = lesson
         primaryFiles.sort(({ size: a }, { size: b }) => options.quality == 'SD' ? a - b : b - a)
         let { s3Url } = primaryFiles[0]
@@ -29,14 +33,16 @@ function get_lesson_course_name(lesson) {
 }
 
 function is_invalid_lesson(lesson, options) {
-    var is_invalid = !lesson.hasAvailableVideo ||
-        (options.times && !within_times(lesson, options.times)) ||
-        (options.before && !before_date(lesson, options.before)) ||
-        (options.after && !after_date(lesson, options.after))
-    if(lesson.hasAvailableVideo) {
+    var has_vid = lesson.hasAvailableVideo
+    var valid_times = !options.times || within_times(lesson, options.times) 
+    var valid_before = !options.before || before_date(lesson, options.before)
+    var valid_after = !options.after || after_date(lesson, options.after)
+    var is_invalid = !has_vid || !valid_times || !valid_before || !valid_after
+    if(has_vid) {
         verblog('[LOG]', is_invalid ? 'Skipping' : 'Adding', get_lesson_course_name(lesson), get_lesson_start(lesson))
     }
-    return is_invalid
+    var N_inc = (!valid_before || !valid_after) && (has_vid && valid_times)
+    return [is_invalid, N_inc ? 1 : 0]
 }
 
 const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
