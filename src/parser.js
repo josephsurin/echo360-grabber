@@ -33,7 +33,7 @@ function get_lesson_course_name(lesson) {
 }
 
 function is_invalid_lesson(lesson, options) {
-    var has_vid = lesson.hasAvailableVideo && lesson.video && lesson.video.media && lesson.video.media.media && lesson.video.media.current && lesson.video.media.current.primaryFiles
+    var has_vid = lesson.hasAvailableVideo && lesson.video && lesson.video.media && lesson.video.media.media && lesson.video.media.media.current && lesson.video.media.media.current.primaryFiles
     var valid_times = !options.times || within_times(lesson, options.times) 
     var valid_before = !options.before || before_date(lesson, options.before)
     var valid_after = !options.after || after_date(lesson, options.after)
