@@ -3,9 +3,12 @@ function parse(syllabus, options) {
     parsed_data = []
     /* sort the data by time so we get correct indexing */
     data.sort((a, b) => {
-        let { lesson: { lesson: { timing: { start: start_a } } } } = a
-        let { lesson: { lesson: { timing: { start: start_b } } } } = b
-        return new Date(start_a) - new Date(start_b)
+        if(a.lesson.lesson.timing && b.lesson.lesson.timing) {
+            let { lesson: { lesson: { timing: { start: start_a } } } } = a
+            let { lesson: { lesson: { timing: { start: start_b } } } } = b
+            return new Date(start_a) - new Date(start_b)
+        }
+        return 0
     })
     var N = 1
     data.forEach(({ lesson }) => {
@@ -25,7 +28,7 @@ function parse(syllabus, options) {
 }
 
 function get_lesson_start(lesson) {
-    return lesson.lesson.timing.start
+    return lesson.lesson.timing ? lesson.lesson.timing.start : 0
 }
 
 function get_lesson_course_name(lesson) {
