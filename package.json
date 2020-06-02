@@ -1,6 +1,6 @@
 {
     "name": "echo360-grabber",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "description": "Video link grabber for echo360",
     "keywords": [
         "echo360",
